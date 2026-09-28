@@ -69,6 +69,17 @@
       td.value { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; color: #a8e5a0; }
       footer { margin-top: 40px; color: #6c7488; font-size: 12px; line-height: 1.8; }
       a.inline { color: #7ea6ff; }
+      .downloads { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
+      .download {
+        display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit;
+        background: linear-gradient(135deg, #1b2340 0%, var(--surface) 65%);
+        border: 1px solid #33406a; border-radius: 12px; padding: 14px 18px;
+        transition: transform 0.15s ease, border-color 0.15s ease;
+      }
+      .download:hover { transform: translateY(-2px); border-color: var(--cr-orange); }
+      .download .material-icons { color: var(--cr-orange); font-size: 26px; }
+      .download strong { display: block; font-size: 14px; }
+      .download span.file { color: var(--muted); font-family: ui-monospace, Menlo, monospace; font-size: 12px; }
     </style>
     <!--PREVIEW_META-->
   </head>
@@ -129,6 +140,24 @@
           </div>
         </a>
 
+        <a class="card" href="/player/">
+          <div class="top">
+            <span class="material-icons">smart_display</span>
+            <strong>Standalone player</strong>
+          </div>
+          <p>
+            The Crunchyroll-style video player extracted from this preview into a two-file package
+            (<code>crunchyroll-player.js</code> + <code>.css</code>): simulated clock for demos,
+            <code>attachVideo()</code> for real media, keyboard shortcuts, captions, speed menu —
+            download it below.
+          </p>
+          <div class="badges">
+            <span class="badge real">zero dependencies</span>
+            <span class="badge real">works from file://</span>
+            <span class="badge sim">no bundler needed</span>
+          </div>
+        </a>
+
         <a class="card" href="/popup/">
           <div class="top">
             <span class="material-icons">extension</span>
@@ -146,6 +175,9 @@
           </div>
         </a>
       </div>
+
+      <h2>Download</h2>
+      <div class="downloads" id="downloads"></div>
 
       <h2>Scenarios in the mock catalogue</h2>
       <div class="list" id="scenarios"><a><span class="title">loading…</span></a></div>
@@ -229,8 +261,8 @@
       </div>
 
       <footer>
-        Smoke tests: <code>node dev-preview/test/smoke.mjs</code> (Crunchyroll pages) and
-        <code>node dev-preview/test/popup-smoke.mjs</code> (popup).<br />
+        Smoke tests: <code>npm run preview:test</code> — Crunchyroll pages, popup, standalone
+        player. Package the player with <code>npm run preview:zip</code>.<br />
         Rebuild the runtime bundle with <code>npm run preview:build</code> after changing chibi code.
       </footer>
     </div>
@@ -242,6 +274,25 @@
         build: ${meta.commit} · ${meta.commitMessage || ''}<br />
         dist/webextension built: ${meta.built ? 'yes' : 'no'}
       `;
+
+      const downloads = window.__MALSYNC_DOWNLOADS__ || [];
+      const downloadBox = document.getElementById('downloads');
+      if (downloads.length) {
+        downloadBox.innerHTML = downloads
+          .map(
+            file => `<a class="download" href="/download/${file.name}" download>
+              <span class="material-icons">download</span>
+              <span>
+                <strong>Download the standalone player</strong>
+                <span class="file">${file.name} · ${(file.size / 1024).toFixed(1)} KB</span>
+              </span>
+            </a>`,
+          )
+          .join('');
+      } else {
+        downloadBox.innerHTML =
+          '<span style="color: var(--muted); font-size: 13px">run <code>npm run preview:zip</code> to build crunchyroll-player.zip</span>';
+      }
 
       fetch('/mock/crunchyroll/library.json')
         .then(r => r.json())

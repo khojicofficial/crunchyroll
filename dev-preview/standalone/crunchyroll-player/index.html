@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CrunchyrollPlayer · standalone demo</title>
+    <link rel="stylesheet" href="crunchyroll-player.css" />
+    <style>
+      :root {
+        --cr-orange: #f47521;
+        --bg: #0b0d13;
+        --surface: #14171f;
+        --border: #242936;
+        --muted: #98a0b5;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: radial-gradient(circle at 15% -10%, #1b2340 0%, var(--bg) 55%);
+        color: #e9ecf5;
+        font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+        min-height: 100vh;
+        padding: 34px 22px 70px;
+      }
+      .wrap { max-width: 1060px; margin: 0 auto; }
+      header { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; flex-wrap: wrap; }
+      .logo {
+        width: 40px; height: 40px; border-radius: 11px; background: var(--cr-orange);
+        display: grid; place-items: center; color: #10120f; font-weight: 800;
+      }
+      h1 { font-size: 22px; margin: 0; }
+      .sub { color: var(--muted); font-size: 12.5px; margin-top: 3px; }
+      .hint { margin-left: auto; color: var(--muted); font-size: 12.5px; text-align: right; line-height: 1.6; }
+      kbd {
+        background: #1b1f2b; border: 1px solid var(--border); border-radius: 4px;
+        padding: 1px 5px; font-family: ui-monospace, Menlo, monospace; font-size: 11.5px;
+      }
+      .layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 18px; align-items: start; }
+      @media (max-width: 880px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+      .meta { display: flex; align-items: baseline; gap: 10px; margin: 14px 0 4px; flex-wrap: wrap; }
+      .meta h2 { font-size: 19px; margin: 0; }
+      .pill { font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: #232838; color: #b9c0d4; }
+      .pill.orange { background: rgba(244, 117, 33, 0.16); color: var(--cr-orange); }
+      .desc { color: #c3c9da; font-size: 13.5px; line-height: 1.65; margin: 10px 0 0; max-width: 720px; }
+      .panel {
+        background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px;
+      }
+      .panel h3 { margin: 0 0 10px; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+      .episode {
+        display: flex; gap: 12px; align-items: center; width: 100%; text-align: left; cursor: pointer;
+        background: transparent; border: 0; border-radius: 8px; padding: 8px; color: inherit;
+      }
+      .episode:hover { background: #1a1e29; }
+      .episode.is-active { background: #1e2331; }
+      .episode .thumb { width: 74px; height: 42px; border-radius: 6px; flex: none; }
+      .episode strong { display: block; font-size: 13px; }
+      .episode span { color: var(--muted); font-size: 11.5px; }
+      #log {
+        margin: 0; padding: 0; list-style: none; max-height: 240px; overflow: auto;
+        font-family: ui-monospace, Menlo, monospace; font-size: 11.5px; color: #9fe0a5; line-height: 1.7;
+      }
+      #log li { white-space: nowrap; }
+      #log .event { color: var(--cr-orange); }
+      .controls-demo { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+      .controls-demo button {
+        background: #1d2231; border: 1px solid var(--border); color: #dfe3ee; border-radius: 8px;
+        padding: 7px 11px; font-size: 12.5px; cursor: pointer;
+      }
+      .controls-demo button:hover { border-color: #40507e; }
+      .mini { margin-top: 26px; }
+      .mini .crp { max-width: 420px; }
+      code {
+        font-family: ui-monospace, Menlo, monospace; background: #1b1f2b; padding: 1px 5px;
+        border-radius: 4px; font-size: 12.5px;
+      }
+      footer { color: #6c7488; font-size: 12px; margin-top: 30px; line-height: 1.8; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="logo">CR</div>
+        <div>
+          <h1>CrunchyrollPlayer</h1>
+          <div class="sub">
+            Standalone video player shell — extracted from the MAL-Sync Crunchyroll preview. No
+            dependencies, works straight from <code>file://</code>.
+          </div>
+        </div>
+        <div class="hint">
+          <kbd>space</kbd> play · <kbd>←</kbd><kbd>→</kbd> ±10s · <kbd>m</kbd> mute<br />
+          <kbd>c</kbd> captions · <kbd>f</kbd> fullscreen
+        </div>
+      </header>
+
+      <div class="layout">
+        <div>
+          <div id="player"></div>
+
+          <div class="meta">
+            <h2 id="title">Solo Leveling</h2>
+            <span class="pill orange" id="badge">S1 E5</span>
+            <span class="pill">Sub | Dub</span>
+            <span class="pill" id="clock">simulated clock</span>
+          </div>
+          <p class="desc" id="desc">
+            The player is a UI shell: it runs its own clock (or drives a real
+            <code>&lt;video&gt;</code> element when you call <code>attachVideo</code>). Everything you
+            see here — controls, timeline scrubbing, captions, speed menu, fullscreen and the
+            keyboard shortcuts — comes from <code>crunchyroll-player.js</code> + <code>.css</code>.
+          </p>
+
+          <div class="panel" style="margin-top: 18px">
+            <h3>Controller API</h3>
+            <div class="controls-demo">
+              <button data-cmd="toggle">toggle()</button>
+              <button data-cmd="seekBy-30">seekBy(-30)</button>
+              <button data-cmd="seekBy30">seekBy(30)</button>
+              <button data-cmd="seek480">seek(8:00)</button>
+              <button data-cmd="rate">setRate(1.5)</button>
+              <button data-cmd="mute">setMuted(true)</button>
+              <button data-cmd="captions">setCaptions(false)</button>
+              <button data-cmd="fullscreen">fullscreen</button>
+            </div>
+          </div>
+
+          <div class="mini">
+            <div class="panel" style="margin-bottom: 12px">
+              <h3>Second instance (mini preview)</h3>
+              <div id="player-mini"></div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="panel">
+            <h3>Up next</h3>
+            <div id="episodes"></div>
+          </div>
+
+          <div class="panel" style="margin-top: 14px">
+            <h3>Events (<code>crp:*</code>)</h3>
+            <ul id="log"></ul>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        Feed the player your own media with
+        <code>CrunchyrollPlayer.attachVideo('#player', videoEl, { title })</code> — every control then
+        drives the real element. Reuse it anywhere: multiple instances, own posters, own caption
+        tracks.<br />
+        Extracted from the MAL-Sync dev preview · GPL-3.0-only, same as MAL-Sync.
+      </footer>
+    </div>
+
+    <script src="crunchyroll-player.js"></script>
+    <script>
+      // A tiny mock catalogue, the same shape the MAL-Sync preview uses.
+      const episodes = [
+        {
+          id: 'G9VU2PW0J',
+          series: 'Solo Leveling',
+          title: 'A Pretty Good Day to Die',
+          season: 1,
+          number: 5,
+          duration: 24 * 60,
+          poster: 'linear-gradient(135deg, #2b1f4d 0%, #101322 55%, #05060b 100%)',
+          description:
+            'Jinwoo clears the penalty zone and gets a second chance at the double dungeon.',
+          captions: [
+            { start: 2, end: 6, text: 'System: daily quest complete.' },
+            { start: 8, end: 13, text: '“I refuse to stay weak.”' },
+            { start: 15, end: 20, text: 'Status window: level up.' },
+            { start: 40, end: 46, text: 'That is what the player shell can show.' },
+          ],
+        },
+        {
+          id: 'G8VG4VK90',
+          series: 'Re:ZERO -Starting Life in Another World-',
+          title: 'The Value of a Life',
+          season: 2,
+          number: 3,
+          duration: 24 * 60,
+          poster: 'linear-gradient(135deg, #16384f 0%, #0d1520 55%, #05060b 100%)',
+          description: 'Subaru wakes up in the mansion again, with one more loop behind him.',
+          captions: [{ start: 3, end: 8, text: '“Return by death.”' }],
+        },
+        {
+          id: 'G6KQ9P51M',
+          series: 'Attack on Titan',
+          title: 'Declaration of War',
+          season: 4,
+          number: 5,
+          duration: 23 * 60,
+          poster: 'linear-gradient(135deg, #4d2a17 0%, #1b1013 55%, #05060b 100%)',
+          description: 'The stage is set in Liberio, and the Scouts are already inside the walls.',
+          captions: [{ start: 4, end: 9, text: '“We are the same.”' }],
+        },
+      ];
+
+      const log = document.getElementById('log');
+      function logEvent(name, detail) {
+        const item = document.createElement('li');
+        const time = new Date().toISOString().slice(11, 19);
+        const info = detail
+          ? ` ${JSON.stringify(
+              Object.fromEntries(
+                Object.entries(detail).filter(([key]) =>
+                  ['currentTime', 'duration', 'rate', 'muted', 'captions', 'fullscreen'].includes(key),
+                ),
+              ),
+            )}`
+          : '';
+        item.innerHTML = `<span class="event">${name}</span> ${time}${info}`;
+        log.prepend(item);
+        while (log.children.length > 30) log.lastElementChild.remove();
+      }
+
+      function mount(container, episode, index) {
+        const player = CrunchyrollPlayer.create(container, {
+          title: episode.series,
+          subtitle: `${episode.season ? `S${episode.season} ` : ''}E${episode.number} · ${episode.title}`,
+          poster: episode.poster,
+          duration: episode.duration,
+          captionsTrack: episode.captions,
+        });
+        ['ready', 'play', 'pause', 'seek', 'timeupdate', 'ended', 'ratechange', 'volumechange', 'captionschange', 'fullscreenchange'].forEach(
+          name => {
+            // `timeupdate` fires ~10×/second: log it only every 10 seconds to keep the list readable.
+            if (name === 'timeupdate') {
+              let last = -1;
+              player.root.addEventListener('crp:timeupdate', event => {
+                const bucket = Math.floor(event.detail.currentTime / 10);
+                if (bucket !== last) {
+                  last = bucket;
+                  logEvent(`crp:${name}`, event.detail);
+                }
+              });
+              return;
+            }
+            player.root.addEventListener(`crp:${name}`, event => logEvent(`crp:${name}`, event.detail));
+          },
+        );
+        return player;
+      }
+
+      let current = 0;
+      let player = mount('#player', episodes[current], current);
+      const mini = mount('#player-mini', episodes[1], 1);
+
+      // Up next list -----------------------------------------------------------
+      const list = document.getElementById('episodes');
+      episodes.forEach((episode, index) => {
+        const button = document.createElement('button');
+        button.className = `episode${index === 0 ? ' is-active' : ''}`;
+        button.dataset.index = String(index);
+        button.innerHTML = `
+          <span class="thumb" style="background:${episode.poster}"></span>
+          <span>
+            <strong>${episode.series}</strong>
+            <span>S${episode.season} E${episode.number} · ${episode.title}</span>
+          </span>
+        `;
+        button.addEventListener('click', () => {
+          current = index;
+          list.querySelectorAll('.episode').forEach(node =>
+            node.classList.toggle('is-active', Number(node.dataset.index) === index),
+          );
+          player.setMeta({ title: episode.series, subtitle: `S${episode.season} E${episode.number}` });
+          player.setPoster(episode.poster);
+          player.setDuration(episode.duration);
+          player.seek(0);
+          document.getElementById('title').textContent = episode.series;
+          document.getElementById('badge').textContent = `S${episode.season} E${episode.number}`;
+          document.getElementById('desc').textContent = episode.description;
+          logEvent('episodechange', { title: episode.series });
+        });
+        list.appendChild(button);
+      });
+
+      // Controller API buttons -------------------------------------------------
+      document.querySelectorAll('[data-cmd]').forEach(button => {
+        button.addEventListener('click', () => {
+          const command = button.dataset.cmd;
+          if (command === 'toggle') player.toggle();
+          if (command === 'seekBy-30') player.seekBy(-30);
+          if (command === 'seekBy30') player.seekBy(30);
+          if (command === 'seek480') player.seek(480);
+          if (command === 'rate') player.setRate(player.getState().rate === 1.5 ? 1 : 1.5);
+          if (command === 'mute') player.setMuted(!player.getState().muted);
+          if (command === 'captions') player.setCaptions(!player.getState().captions);
+          if (command === 'fullscreen') player.root.querySelector('[data-t="fullscreen"]').click();
+          logEvent(`api:${command}`, player.getState());
+        });
+      });
+
+      logEvent('ready', player.getState());
+
+      // Handy for the console and for the smoke test.
+      window.CrunchyrollPlayerDemo = { player, mini, episodes };
+    </script>
+  </body>
+</html>

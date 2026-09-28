@@ -1,0 +1,330 @@
+/*!
+ * CrunchyrollPlayer 1.0.0 — styles
+ * Crunchyroll-ish dark player surface. Everything is scoped under `.crp`.
+ */
+
+.crp {
+  --crp-orange: #f47521;
+  --crp-surface: #14161c;
+  --crp-text: #f2f2f2;
+  --crp-muted: #a8abb4;
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 10px;
+  overflow: hidden;
+  color: var(--crp-text);
+  font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+  outline: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.crp:focus-visible {
+  box-shadow: 0 0 0 2px var(--crp-orange);
+}
+
+.crp:fullscreen,
+.crp__stage:fullscreen {
+  border-radius: 0;
+  aspect-ratio: auto;
+  height: 100%;
+}
+
+.crp__stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.crp__poster {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background-position: center;
+  background-size: cover;
+  transition: transform 6s ease;
+}
+
+.crp--playing .crp__poster {
+  transform: scale(1.04);
+}
+
+.crp__poster-title {
+  font-size: clamp(18px, 3.4vw, 34px);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-align: center;
+  padding: 0 8%;
+  text-shadow: 0 6px 24px rgba(0, 0, 0, 0.75);
+  opacity: 0.92;
+}
+
+.crp__gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.25) 28%, transparent 55%);
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+
+.crp--playing.crp--idle .crp__gradient {
+  opacity: 0;
+}
+
+.crp__captions {
+  position: absolute;
+  left: 50%;
+  bottom: 76px;
+  transform: translateX(-50%);
+  max-width: min(80%, 720px);
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.72);
+  border-radius: 4px;
+  font-size: clamp(13px, 1.5vw, 19px);
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: center;
+  pointer-events: none;
+}
+
+.crp__center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.crp__center-icon {
+  width: 74px;
+  height: 74px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.crp__center-icon svg {
+  width: 34px;
+  height: 34px;
+  fill: #fff;
+  margin-left: 3px;
+}
+
+.crp__center:hover .crp__center-icon {
+  transform: scale(1.06);
+  background: var(--crp-orange);
+  border-color: var(--crp-orange);
+}
+
+.crp--playing .crp__center {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.crp__controls {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 8px 14px 10px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.55) 60%, transparent);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.crp--playing.crp--idle .crp__controls {
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+}
+
+.crp__row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.crp__spacer {
+  flex: 1;
+}
+
+.crp__btn {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.crp__btn svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
+.crp__btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.crp__btn.is-active {
+  color: var(--crp-orange);
+}
+
+.crp__time {
+  margin-left: 6px;
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+  color: #e6e7ea;
+}
+
+.crp__progress {
+  position: relative;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.crp__progress-track {
+  position: relative;
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+  transition: height 0.12s ease;
+}
+
+.crp__progress:hover .crp__progress-track {
+  height: 6px;
+}
+
+.crp__progress-played {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: var(--crp-orange);
+}
+
+.crp__progress-thumb {
+  position: absolute;
+  left: 0;
+  width: 13px;
+  height: 13px;
+  margin-left: -6px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transition: opacity 0.12s ease;
+  pointer-events: none;
+}
+
+.crp__progress:hover .crp__progress-thumb {
+  opacity: 1;
+}
+
+.crp__menu {
+  position: absolute;
+  right: 14px;
+  bottom: 62px;
+  min-width: 168px;
+  padding: 10px 12px 12px;
+  background: rgba(18, 20, 26, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.5);
+}
+
+.crp__menu-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--crp-muted);
+  margin-bottom: 8px;
+}
+
+.crp__menu-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.crp__rate {
+  padding: 5px 9px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: transparent;
+  color: #fff;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.crp__rate:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.crp__rate.is-active {
+  background: var(--crp-orange);
+  border-color: var(--crp-orange);
+  color: #10120f;
+  font-weight: 700;
+}
+
+.crp__menu-close {
+  margin-top: 10px;
+  width: 100%;
+  padding: 6px;
+  border-radius: 6px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.crp__menu-close:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+@media (max-width: 520px) {
+  .crp__time {
+    font-size: 11px;
+  }
+
+  .crp__btn {
+    width: 30px;
+    height: 30px;
+  }
+
+  .crp__captions {
+    bottom: 60px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crp__poster,
+  .crp__controls,
+  .crp__gradient,
+  .crp__center {
+    transition: none;
+  }
+}

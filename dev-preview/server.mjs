@@ -6,6 +6,8 @@
  *   /chibi/*           -> dist/webextension/chibi (the real built chibi pages)
  *   /extension/*       -> dist/webextension/* (e.g. the real proxy_request.js)
  *   /popup/*           -> the real built extension popup, running with mocked chrome APIs
+ *   /player/*          -> standalone CrunchyrollPlayer package (dev-preview/standalone)
+ *   /download/*.zip    -> packaged downloads, e.g. the standalone player
  *   /mock/crunchyroll/* -> fake Crunchyroll CMS API
  *
  * No dependencies, no external network access required.
@@ -19,6 +21,7 @@ import { execSync } from 'node:child_process';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.join(__dirname, '..');
 const publicDir = path.join(__dirname, 'public');
+const standaloneDir = path.join(__dirname, 'standalone');
 const distDir = path.join(repoRoot, 'dist', 'webextension');
 
 const PORT = Number(process.env.PORT || 4173);
@@ -57,15 +60,17 @@ const mime = {
   '.woff2': 'font/woff2',
   '.map': 'application/json; charset=utf-8',
   '.txt': 'text/plain; charset=utf-8',
+  '.zip': 'application/zip',
 };
 
-function send(res, status, body, type = 'text/plain; charset=utf-8') {
+function send(res, status, body, type = 'text/plain; charset=utf-8', extraHeaders = {}) {
   res.writeHead(status, {
     'Content-Type': type,
     'Cache-Control': 'no-store',
     // The preview is shown inside an iframe served from the sandbox domain, so keep
     // framing open and let the harness fetch across ports.
     'Access-Control-Allow-Origin': '*',
+    ...extraHeaders,
   });
   res.end(body);
 }
@@ -90,6 +95,19 @@ function serveFile(res, filePath, transform) {
   });
 }
 
+/** Same as serveFile, but forces the browser to save the file. */
+function serveDownload(res, filePath, filename) {
+  fs.readFile(filePath, (err, data) => {
+    if (err) {
+      send(res, 404, `Not found: ${path.basename(filePath)}`);
+      return;
+    }
+    send(res, 200, data, mime[path.extname(filePath)] || 'application/octet-stream', {
+      'Content-Disposition': `attachment; filename="${filename}"`,
+    });
+  });
+}
+
 let manifest = null;
 try {
   manifest = JSON.parse(fs.readFileSync(path.join(distDir, 'manifest.json'), 'utf8'));
@@ -97,9 +115,22 @@ try {
   /* no build output yet */
 }
 
+/** Index of packaged downloads (the standalone player zip), shown on the landing page. */
+function readDownloads() {
+  const dir = path.join(publicDir, 'download');
+  if (!fs.existsSync(dir)) return [];
+  return fs
+    .readdirSync(dir)
+    .filter(name => name.endsWith('.zip'))
+    .map(name => ({ name, size: fs.statSync(path.join(dir, name)).size }));
+}
+
 /** Every page gets the build metadata injected, the panel shows it in the header. */
 function injectMeta(html) {
-  const globals = [`window.__MALSYNC_PREVIEW__ = ${JSON.stringify(META)};`];
+  const globals = [
+    `window.__MALSYNC_PREVIEW__ = ${JSON.stringify(META)};`,
+    `window.__MALSYNC_DOWNLOADS__ = ${JSON.stringify(readDownloads())};`,
+  ];
   // The popup asks `chrome.runtime.getManifest()` for its permission overview, so it
   // gets the real, built manifest.
   if (manifest) globals.push(`window.__MALSYNC_MANIFEST__ = ${JSON.stringify(manifest)};`);
@@ -226,6 +257,26 @@ const server = http.createServer((req, res) => {
     return serveFile(res, path.join(__dirname, 'mock', 'mal', pathname.replace('/mock/mal/', '')));
   }
 
+  // Standalone player (extracted from this preview) + its zip download --------------
+  if (pathname === '/player' || pathname === '/player/') {
+    return serveFile(res, path.join(standaloneDir, 'crunchyroll-player', 'index.html'));
+  }
+
+  if (pathname.startsWith('/player/')) {
+    return serveFile(
+      res,
+      path.join(standaloneDir, 'crunchyroll-player', pathname.replace('/player/', '')),
+    );
+  }
+
+  if (pathname.startsWith('/download/')) {
+    const file = path.join(__dirname, 'public', 'download', pathname.replace('/download/', ''));
+    if (file.startsWith(path.join(__dirname, 'public', 'download')) && fs.existsSync(file)) {
+      return serveDownload(res, file, path.basename(file));
+    }
+    return send(res, 404, `No download: ${path.basename(pathname)}`);
+  }
+
   // Static -------------------------------------------------------------------
   // Checked before the SPA fallback below so that /crunchyroll/*.js|*.css are served
   // as files instead of the mock site shell.
@@ -252,5 +303,6 @@ server.listen(PORT, HOST, () => {
   console.log(`MAL-Sync preview running on http://${HOST}:${PORT}`);
   console.log(`  Crunchyroll lab : /crunchyroll/watch/G9VU2PW0J/solo-leveling-episode-5`);
   console.log(`  Extension popup : /popup/`);
+  console.log(`  Player (standalone) : /player/`);
   console.log(`  Build           : ${META.version} (${META.commit}) dist built: ${META.built}`);
 });

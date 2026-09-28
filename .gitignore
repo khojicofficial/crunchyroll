@@ -55,3 +55,6 @@ src/chibiScript/ChibiGeneratorTypes.ts
 dev-preview/public/build/
 dev-preview/public/vendor/jquery.min.js
 dev-preview/public/vendor/fonts/
+
+# Preview: packaged downloads (npm run preview:zip regenerates them)
+dev-preview/public/download/

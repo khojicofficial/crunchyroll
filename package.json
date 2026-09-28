@@ -116,7 +116,8 @@
     "lint:fix": "npm run lint:script:fix && npm run lint:less:fix",
     "lint:ci": "npm run lint:less:ci && npm run lint:script:ci && npm run lint:vue",
     "preview:setup": "node dev-preview/setup-vendor.mjs",
-    "preview:test": "node dev-preview/test/smoke.mjs && node dev-preview/test/popup-smoke.mjs"
+    "preview:test": "node dev-preview/test/smoke.mjs && node dev-preview/test/popup-smoke.mjs && node dev-preview/test/player-smoke.mjs",
+    "preview:zip": "node dev-preview/build-player-zip.mjs"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
