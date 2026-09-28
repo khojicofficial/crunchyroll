@@ -103,6 +103,8 @@
     "test": "npm run test:ts && npm run test:headless",
     "test:headless": "webpack --config webpackConfig/test.config.js && node test/headless/test.js",
     "test:ts": "ts-mocha -p tsconfig.node.json test/src/**/*.test.ts --require test/_env_injection.ts",
+    "preview": "node dev-preview/server.mjs",
+    "preview:build": "webpack --config dev-preview/webpack.config.js",
     "test:ts:ci": "cross-env NO_API=true ts-mocha -p tsconfig.node.json 'test/src/**/*.test.ts' --require test/_env_injection.ts --exit",
     "lint:script": "eslint .",
     "lint:script:ci": "npm run lint:script -- --quiet",
@@ -112,7 +114,9 @@
     "lint:less:ci": "stylelint src/**/*.{css,less,vue} -q",
     "lint:vue": "vue-tsc --noEmit",
     "lint:fix": "npm run lint:script:fix && npm run lint:less:fix",
-    "lint:ci": "npm run lint:less:ci && npm run lint:script:ci && npm run lint:vue"
+    "lint:ci": "npm run lint:less:ci && npm run lint:script:ci && npm run lint:vue",
+    "preview:setup": "node dev-preview/setup-vendor.mjs",
+    "preview:test": "node dev-preview/test/smoke.mjs && node dev-preview/test/popup-smoke.mjs"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",

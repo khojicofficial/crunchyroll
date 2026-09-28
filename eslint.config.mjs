@@ -6,6 +6,7 @@ export default [
   {
     ignores: [
       'dist/',
+      'dev-preview/public/build/', // generated preview bundle
       'node_modules/',
       'test/dist',
       '*.min.js',

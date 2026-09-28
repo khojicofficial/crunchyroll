@@ -1,0 +1,210 @@
+{
+  "note": "Mock Crunchyroll catalogue used by the local preview. Shapes mirror the Crunchyroll CMS API responses (cms/objects, cms/series/*/seasons) that the built chibi script parses.",
+  "series": [
+    {
+      "series_id": "GY9P765D1",
+      "series_title": "Solo Leveling",
+      "series_slug_title": "solo-leveling",
+      "description": "When a portal connecting our world to a dimension of monsters opens, some people awaken as hunters. Sung Jinwoo is the weakest of them all - until a near-fatal dungeon run leaves him with a power that lets him level up without limits.",
+      "seasons": [
+        {
+          "id": "GR3V8N9K1",
+          "title": "Solo Leveling",
+          "season_display_number": "1",
+          "season_number": 1,
+          "season_sequence_number": 1,
+          "series_id": "GY9P765D1",
+          "slug_title": "solo-leveling",
+          "number_of_episodes": 12,
+          "description": "Season 1"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "G6VU2PW0R",
+          "title": "I'm Used to It",
+          "slug_title": "solo-leveling-episode-1",
+          "description": "Sung Jinwoo, the world's weakest hunter, barely survives a double dungeon.",
+          "episode_number": 1,
+          "season_id": "GR3V8N9K1",
+          "season_title": "Solo Leveling",
+          "season_slug_title": "solo-leveling",
+          "season_number": 1
+        },
+        {
+          "id": "G9VU2PW0J",
+          "title": "I've Been Waiting for This",
+          "slug_title": "solo-leveling-episode-5",
+          "description": "Jinwoo enters the instant dungeon and meets a familiar face inside.",
+          "episode_number": 5,
+          "season_id": "GR3V8N9K1",
+          "season_title": "Solo Leveling",
+          "season_slug_title": "solo-leveling",
+          "season_number": 1
+        },
+        {
+          "id": "G0VU2PW1K",
+          "title": "This Is What It Means to Be a Hunter",
+          "slug_title": "solo-leveling-episode-12",
+          "description": "The raid party faces the giant spider boss of the C-rank gate.",
+          "episode_number": 12,
+          "season_id": "GR3V8N9K1",
+          "season_title": "Solo Leveling",
+          "season_slug_title": "solo-leveling",
+          "season_number": 1
+        }
+      ]
+    },
+    {
+      "series_id": "GRVG4VK72",
+      "series_title": "Re:ZERO -Starting Life in Another World-",
+      "series_slug_title": "rezero-starting-life-in-another-world",
+      "description": "Suddenly summoned to a fantasy world, Subaru Natsuki discovers his only power is to rewind death itself - every time he dies, the world resets and only he remembers.",
+      "seasons": [
+        {
+          "id": "GR2V4VK73",
+          "title": "Re:ZERO -Starting Life in Another World-",
+          "season_display_number": "1",
+          "season_number": 1,
+          "season_sequence_number": 1,
+          "series_id": "GRVG4VK72",
+          "slug_title": "rezero-starting-life-in-another-world",
+          "number_of_episodes": 25,
+          "description": "Season 1"
+        },
+        {
+          "id": "GR2V4VK74",
+          "title": "Re:ZERO -Starting Life in Another World- Season 2",
+          "season_display_number": "2",
+          "season_number": 2,
+          "season_sequence_number": 2,
+          "series_id": "GRVG4VK72",
+          "slug_title": "rezero-starting-life-in-another-world-season-2",
+          "number_of_episodes": 25,
+          "description": "Season 2"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "G8VG4VK90",
+          "title": "The Road to the Sanctuary",
+          "slug_title": "rezero-starting-life-in-another-world-season-2-episode-3",
+          "description": "Subaru and the others head for the Sanctuary to seek answers.",
+          "episode_number": 3,
+          "season_id": "GR2V4VK74",
+          "season_title": "Re:ZERO -Starting Life in Another World- Season 2",
+          "season_slug_title": "rezero-starting-life-in-another-world-season-2",
+          "season_number": 2
+        },
+        {
+          "id": "G8VG4VK91",
+          "title": "Parent and Child",
+          "slug_title": "rezero-starting-life-in-another-world-season-2-episode-4",
+          "description": "Emilia learns the truth about her past, and Subaru makes a painful promise.",
+          "episode_number": 4,
+          "season_id": "GR2V4VK74",
+          "season_title": "Re:ZERO -Starting Life in Another World- Season 2",
+          "season_slug_title": "rezero-starting-life-in-another-world-season-2",
+          "season_number": 2
+        }
+      ]
+    },
+    {
+      "series_id": "GR751KNZY",
+      "series_title": "Frieren: Beyond Journey's End",
+      "series_slug_title": "frieren-beyond-journeys-end",
+      "description": "After the party of heroes defeated the Demon King, the elf mage Frieren begins a journey to understand the people she outlives.",
+      "seasons": [
+        {
+          "id": "GR7N4N91Z",
+          "title": "Frieren: Beyond Journey's End",
+          "season_display_number": "1",
+          "season_number": 1,
+          "season_sequence_number": 1,
+          "series_id": "GR751KNZY",
+          "slug_title": "frieren-beyond-journeys-end",
+          "number_of_episodes": 28,
+          "description": "Season 1"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "G9VU7J99F",
+          "title": "The Journey's End",
+          "slug_title": "frieren-beyond-journeys-end-episode-1",
+          "description": "The hero Himmel's death sends Frieren back to the places they once travelled together.",
+          "episode_number": 1,
+          "season_id": "GR7N4N91Z",
+          "season_title": "Frieren: Beyond Journey's End",
+          "season_slug_title": "frieren-beyond-journeys-end",
+          "season_number": 1
+        },
+        {
+          "id": "G9VU7J99G",
+          "title": "A Real Hero",
+          "slug_title": "frieren-beyond-journeys-end-episode-12",
+          "description": "Fern and Stark take on a dragon while Frieren watches how far they have come.",
+          "episode_number": 12,
+          "season_id": "GR7N4N91Z",
+          "season_title": "Frieren: Beyond Journey's End",
+          "season_slug_title": "frieren-beyond-journeys-end",
+          "season_number": 1
+        }
+      ]
+    },
+    {
+      "series_id": "GRKQ9P40Y",
+      "series_title": "Attack on Titan",
+      "series_slug_title": "attack-on-titan",
+      "description": "Humanity fights for survival behind enormous walls while the mystery of the Titans closes in on them.",
+      "seasons": [
+        {
+          "id": "GR2V4K9X4",
+          "title": "Attack on Titan",
+          "season_display_number": "1",
+          "season_number": 1,
+          "season_sequence_number": 1,
+          "series_id": "GRKQ9P40Y",
+          "slug_title": "attack-on-titan",
+          "number_of_episodes": 25,
+          "description": "Season 1"
+        },
+        {
+          "id": "GR2V4K9X7",
+          "title": "Attack on Titan Final Season",
+          "season_display_number": "4",
+          "season_number": 4,
+          "season_sequence_number": 4,
+          "series_id": "GRKQ9P40Y",
+          "slug_title": "attack-on-titan-final-season",
+          "number_of_episodes": 16,
+          "description": "Final Season"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "G6KQ9P51K",
+          "title": "The Other Side of the Sea",
+          "slug_title": "attack-on-titan-final-season-episode-1",
+          "description": "Four years after the battle of Shiganshina, the Scouts look across the sea.",
+          "episode_number": 1,
+          "season_id": "GR2V4K9X7",
+          "season_title": "Attack on Titan Final Season",
+          "season_slug_title": "attack-on-titan-final-season",
+          "season_number": 4
+        },
+        {
+          "id": "G6KQ9P51M",
+          "title": "Judgement",
+          "slug_title": "attack-on-titan-final-season-episode-5",
+          "description": "The Warriors and the Scouts meet again at long last.",
+          "episode_number": 5,
+          "season_id": "GR2V4K9X7",
+          "season_title": "Attack on Titan Final Season",
+          "season_slug_title": "attack-on-titan-final-season",
+          "season_number": 4
+        }
+      ]
+    }
+  ]
+}

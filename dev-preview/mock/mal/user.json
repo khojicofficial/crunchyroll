@@ -1,0 +1,7 @@
+{
+  "id": 1,
+  "name": "preview-user",
+  "picture": "/mock/covers/solo-hunter.jpg",
+  "gender": "unspecified",
+  "joined_at": "2024-01-01T00:00:00+00:00"
+}

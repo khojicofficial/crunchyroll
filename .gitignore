@@ -50,3 +50,8 @@ src/chibiScript/ChibiGeneratorTypes.ts
 
 # IDE
 .idea
+
+# Preview: generated bundle + vendored binaries (`npm run preview:setup` regenerates them)
+dev-preview/public/build/
+dev-preview/public/vendor/jquery.min.js
+dev-preview/public/vendor/fonts/

@@ -1,0 +1,144 @@
+{
+  "note": "Mock MyAnimeList v2 list response for the popup preview (shapes follow https://api.myanimelist.net/v2/users/@me/animelist).",
+  "data": [
+    {
+      "node": {
+        "id": 52299,
+        "title": "Solo Leveling",
+        "main_picture": {
+          "medium": "/mock/covers/solo-hunter.jpg",
+          "large": "/mock/covers/solo-hunter.jpg"
+        },
+        "num_episodes": 12,
+        "alternative_titles": { "en": "Solo Leveling" }
+      },
+      "list_status": {
+        "status": "watching",
+        "score": 9,
+        "num_episodes_watched": 5,
+        "is_rewatching": false,
+        "start_date": "2024-01-07",
+        "finish_date": null,
+        "num_times_rewatched": 0,
+        "tags": []
+      },
+      "anime_airing_status": 2
+    },
+    {
+      "node": {
+        "id": 31240,
+        "title": "Re:Zero kara Hajimeru Isekai Seikatsu",
+        "main_picture": {
+          "medium": "/mock/covers/silver-hair-girl.jpg",
+          "large": "/mock/covers/silver-hair-girl.jpg"
+        },
+        "num_episodes": 25,
+        "alternative_titles": { "en": "Re:ZERO -Starting Life in Another World-" }
+      },
+      "list_status": {
+        "status": "watching",
+        "score": 10,
+        "num_episodes_watched": 3,
+        "is_rewatching": false,
+        "start_date": "2016-04-04",
+        "finish_date": null,
+        "num_times_rewatched": 1,
+        "tags": []
+      },
+      "anime_airing_status": 2
+    },
+    {
+      "node": {
+        "id": 52991,
+        "title": "Sousou no Frieren",
+        "main_picture": {
+          "medium": "/mock/covers/elf-mage.jpg",
+          "large": "/mock/covers/elf-mage.jpg"
+        },
+        "num_episodes": 28,
+        "alternative_titles": { "en": "Frieren: Beyond Journey's End" }
+      },
+      "list_status": {
+        "status": "watching",
+        "score": 10,
+        "num_episodes_watched": 12,
+        "is_rewatching": false,
+        "start_date": "2023-09-29",
+        "finish_date": null,
+        "num_times_rewatched": 0,
+        "tags": ["fantasy"]
+      },
+      "anime_airing_status": 2
+    },
+    {
+      "node": {
+        "id": 41457,
+        "title": "86: Eighty Six",
+        "main_picture": {
+          "medium": "/mock/covers/mecha-pilot.jpg",
+          "large": "/mock/covers/mecha-pilot.jpg"
+        },
+        "num_episodes": 11,
+        "alternative_titles": { "en": "86 EIGHTY-SIX" }
+      },
+      "list_status": {
+        "status": "watching",
+        "score": 8,
+        "num_episodes_watched": 3,
+        "is_rewatching": false,
+        "start_date": "2021-04-11",
+        "finish_date": null,
+        "num_times_rewatched": 0,
+        "tags": []
+      },
+      "anime_airing_status": 2
+    },
+    {
+      "node": {
+        "id": 16498,
+        "title": "Shingeki no Kyojin",
+        "main_picture": {
+          "medium": "/mock/covers/giant-wall.jpg",
+          "large": "/mock/covers/giant-wall.jpg"
+        },
+        "num_episodes": 25,
+        "alternative_titles": { "en": "Attack on Titan" }
+      },
+      "list_status": {
+        "status": "completed",
+        "score": 9,
+        "num_episodes_watched": 25,
+        "is_rewatching": false,
+        "start_date": "2013-04-07",
+        "finish_date": "2013-09-29",
+        "num_times_rewatched": 2,
+        "tags": []
+      },
+      "anime_airing_status": 2
+    },
+    {
+      "node": {
+        "id": 6008,
+        "title": "Ookami to Koushinryou",
+        "main_picture": {
+          "medium": "/mock/covers/medieval-merchant.jpg",
+          "large": "/mock/covers/medieval-merchant.jpg"
+        },
+        "num_episodes": 13,
+        "alternative_titles": { "en": "Spice and Wolf" }
+      },
+      "list_status": {
+        "status": "plan_to_watch",
+        "score": 0,
+        "num_episodes_watched": 0,
+        "is_rewatching": false,
+        "start_date": null,
+        "finish_date": null,
+        "num_times_rewatched": 0,
+        "tags": []
+      },
+      "anime_airing_status": 2
+    }
+  ],
+  "paging": {}
+}

@@ -1,0 +1,66 @@
+<!doctype html>
+<html mode="popup">
+  <head>
+    <title>MAL-Sync popup · preview</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=550" />
+    <link rel="stylesheet" type="text/css" href="/popup/vendor/materialFont.css" />
+    <link rel="stylesheet" type="text/css" href="/popup/vendor/montserrat.css" />
+    <style>
+      html,
+      body {
+        width: 550px;
+        max-width: 100%;
+        margin: 0;
+      }
+      body {
+        min-height: 900px;
+        background: #0d0f14;
+      }
+      @media (min-width: 599px) {
+        html,
+        body {
+          min-width: 100vw;
+        }
+      }
+      #preview-popup-banner {
+        font-family: 'Montserrat', system-ui, sans-serif;
+        background: #241a06;
+        border-bottom: 1px solid #4a3410;
+        color: #ffd7a8;
+        font-size: 12.5px;
+        padding: 8px 14px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      #preview-popup-banner a {
+        color: #ffb46b;
+        margin-left: auto;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      #preview-popup-banner .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #2e51a2;
+        box-shadow: 0 0 8px #2e51a2;
+      }
+    </style>
+    <!--PREVIEW_META-->
+    <script src="/popup-shim.js"></script>
+  </head>
+
+  <body id="Mal-Sync-Popup">
+    <div id="preview-popup-banner">
+      <span class="dot"></span>
+      Real <code>dist/webextension/content/popup.js</code> running on a mocked
+      <code>chrome.*</code> API · page fill disabled
+      <a href="/">← preview overview</a>
+    </div>
+    <script src="/popup/vendor/jquery.min.js"></script>
+    <script src="/popup/i18n.js"></script>
+    <script src="/popup/content/popup.js"></script>
+  </body>
+</html>

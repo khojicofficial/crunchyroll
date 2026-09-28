@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crunchyroll (mock) · MAL-Sync preview</title>
+    <link rel="icon" href="/vendor/favicon.svg" />
+    <link rel="stylesheet" href="/vendor/montserrat.css" />
+    <link rel="stylesheet" href="/vendor/materialFont.css" />
+    <link rel="stylesheet" href="/crunchyroll/cr-app.css" />
+    <link rel="stylesheet" href="/crunchyroll/panel.css" />
+    <!--PREVIEW_META-->
+  </head>
+  <body>
+    <div id="mock-banner">
+      <span class="dot"></span>
+      Mock Crunchyroll page — the layout and DOM hooks are reconstructed from the real
+      site, no Crunchyroll data or assets are used.
+      <a href="/">← back to preview overview</a>
+    </div>
+
+    <header id="cr-header">
+      <a class="logo" href="/crunchyroll/">
+        <span class="logo-mark"></span>
+        crunchyroll
+      </a>
+      <nav>
+        <span>Browse</span>
+        <span>My List</span>
+        <span>Simulcasts</span>
+      </nav>
+      <div class="spacer"></div>
+      <div class="search"><span class="material-icons">search</span>Search</div>
+      <div class="avatar">SL</div>
+    </header>
+
+    <main id="cr-main"><div class="loading">Loading Crunchyroll page…</div></main>
+
+    <div id="mock-footer">
+      Preview build · MAL-Sync <span id="footer-version"></span>
+    </div>
+
+    <!-- ================= MAL-Sync preview panel ================= -->
+    <aside id="malsync-panel" class="collapsed">
+      <button id="panel-toggle" title="Toggle MAL-Sync preview panel">
+        <span class="material-icons">bug_report</span>
+        <span class="label">MAL-Sync</span>
+      </button>
+
+      <div class="panel-inner">
+        <div class="panel-head">
+          <div class="brand">
+            <span class="logo-mark"></span>
+            <div>
+              <strong>MAL-Sync preview</strong>
+              <small id="panel-version">v0.0.0</small>
+            </div>
+          </div>
+          <div class="head-actions">
+            <button id="panel-rerun" title="Re-run detection">
+              <span class="material-icons">refresh</span>
+            </button>
+            <button id="panel-close" title="Collapse">
+              <span class="material-icons">chevron_right</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="panel-scroll">
+          <section class="panel-section" id="section-status">
+            <h4>Page recognition <span class="tag real">real chibi script</span></h4>
+            <div class="status-card" id="status-card">
+              <span class="material-icons spinner">progress_activity</span>
+              <span>Booting the MAL-Sync chibi runtime…</span>
+            </div>
+            <p class="hint">
+              <code>ChibiProxy</code> loaded the compiled page definition
+              <code>dist/webextension/chibi/pages/Crunchyroll.json</code> and matched
+              this URL with the real <code>urls.match</code> / custom domain logic.
+            </p>
+          </section>
+
+          <section class="panel-section" id="section-detection">
+            <h4>Extracted values <span class="tag real">real chibi script</span></h4>
+            <div id="detection-table" class="rows"></div>
+          </section>
+
+          <section class="panel-section" id="section-sync">
+            <h4>Sync preview <span class="tag sim">simulated</span></h4>
+            <div id="sync-card" class="sync-card">
+              <div class="sync-empty">Nothing detected yet.</div>
+            </div>
+          </section>
+
+          <section class="panel-section" id="section-list">
+            <h4>Episode list extraction <span class="tag real">real chibi script</span></h4>
+            <div id="list-table" class="rows small"><div class="empty">No list on this page.</div></div>
+            <p class="hint">
+              <code>list.elementsSelector()</code> → <code>list.elementUrl()</code> /
+              <code>list.elementEp()</code> run against the episode cards below the player.
+            </p>
+          </section>
+
+          <section class="panel-section" id="section-under">
+            <h4>Under the hood <span class="tag real">compiled chibi JSON</span></h4>
+            <div class="row-controls">
+              <select id="fn-select"></select>
+              <button id="fn-run">Run</button>
+            </div>
+            <pre id="fn-json" class="code"></pre>
+            <p class="hint">This is the exact compiled script shipped in the extension — no source code is
+              generated or transpiled on the fly.</p>
+          </section>
+
+          <section class="panel-section" id="section-log">
+            <h4>
+              Live log
+              <span class="tag">MAL-Sync <code>con</code></span>
+              <button id="log-clear" class="mini">clear</button>
+            </h4>
+            <div id="log-stream" class="log"></div>
+          </section>
+        </div>
+      </div>
+    </aside>
+
+    <script src="/vendor/jquery.min.js"></script>
+    <!-- the real request proxy that the extension injects on Crunchyroll -->
+    <script src="/extension/content/proxy/proxy_request.js"></script>
+    <script src="/crunchyroll/cr-app.js"></script>
+    <script src="/build/harness.js"></script>
+    <script src="/crunchyroll/panel.js"></script>
+  </body>
+</html>
