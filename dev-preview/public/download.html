@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Download crunchyroll-player.zip · MAL-Sync preview</title>
+    <link rel="icon" href="/vendor/favicon.svg" />
+    <link rel="stylesheet" href="/vendor/montserrat.css" />
+    <link rel="stylesheet" href="/vendor/materialFont.css" />
+    <style>
+      :root {
+        --cr-orange: #f47521;
+        --bg: #0b0d13;
+        --surface: #14171f;
+        --border: #242936;
+        --muted: #98a0b5;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: radial-gradient(circle at 15% -10%, #1b2340 0%, var(--bg) 55%);
+        color: #e9ecf5;
+        font-family: 'Montserrat', system-ui, sans-serif;
+        min-height: 100vh;
+        padding: 40px 22px 70px;
+      }
+      .wrap { max-width: 860px; margin: 0 auto; }
+      h1 { font-size: 24px; margin: 0 0 6px; }
+      .sub { color: var(--muted); font-size: 13px; margin-bottom: 26px; }
+      .save {
+        display: inline-flex; align-items: center; gap: 12px;
+        background: var(--cr-orange); color: #10120f; font-weight: 800; font-size: 16px;
+        border: 0; border-radius: 12px; padding: 16px 26px; cursor: pointer;
+        box-shadow: 0 12px 30px rgba(244, 117, 33, 0.3);
+        text-decoration: none;
+      }
+      .save:hover { transform: translateY(-1px); }
+      .save .material-icons { font-size: 24px; color: #10120f; }
+      .save[disabled] { opacity: 0.6; cursor: progress; }
+      .meta-line { color: var(--muted); font-size: 12.5px; margin: 12px 0 0; font-family: ui-monospace, Menlo, monospace; }
+      .status { margin-top: 12px; font-size: 13px; color: #79d189; min-height: 18px; }
+      h2 { font-size: 12.5px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin: 34px 0 12px; }
+      .rows { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+      .row { display: flex; align-items: center; gap: 12px; background: var(--surface); padding: 12px 14px; }
+      .row .label { min-width: 150px; font-size: 13px; font-weight: 600; }
+      .row .label small { display: block; color: var(--muted); font-weight: 400; font-size: 11.5px; margin-top: 2px; }
+      .row code {
+        flex: 1; font-family: ui-monospace, Menlo, monospace; font-size: 11.5px; color: #9aa4bd;
+        overflow-wrap: anywhere; background: #1b1f2b; padding: 6px 8px; border-radius: 6px;
+      }
+      .row a.go, .row button.copy {
+        flex: none; font-size: 12px; padding: 7px 11px; border-radius: 7px; cursor: pointer;
+        border: 1px solid var(--border); background: #1d2231; color: #dfe3ee; text-decoration: none;
+      }
+      .row a.go:hover, .row button.copy:hover { border-color: #40507e; }
+      .note { background: #12151d; border: 1px solid var(--border); border-left: 3px solid var(--cr-orange); border-radius: 10px; padding: 14px 16px; margin-top: 22px; color: #c3c9da; font-size: 13px; line-height: 1.7; }
+      .note b { color: #fff; }
+      .back { color: #7ea6ff; font-size: 12.5px; text-decoration: none; }
+      .hash { font-family: ui-monospace, Menlo, monospace; font-size: 11.5px; color: #9aa4bd; overflow-wrap: anywhere; }
+    </style>
+    <!--PREVIEW_META-->
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>crunchyroll-player.zip</h1>
+      <div class="sub">
+        Standalone Crunchyroll-style video player (js + css + demo + README). No dependencies, no
+        build step — unzip and open <code>crunchyroll-player/index.html</code>.
+      </div>
+
+      <button class="save" id="save-btn" type="button">
+        <span class="material-icons">download</span>
+        Save crunchyroll-player.zip
+      </button>
+      <div class="meta-line" id="meta-line"></div>
+      <div class="status" id="status"></div>
+
+      <h2>Mirror links (GitHub)</h2>
+      <div class="rows" id="links"></div>
+
+      <div class="note">
+        <b>Note.</b> Is page ke andar wala button browser me hi file banata hai (same-origin fetch +
+        Blob), isliye preview me hamesha chalega. Bahar ke links GitHub ke hain — agar
+        <code>raw.githubusercontent.com</code> aapke network pe block ho (India ke kuch ISPs), to
+        jsDelivr / GitHack / whole-repo archive wale links try karo.
+      </div>
+
+      <p style="margin-top: 24px"><a class="back" href="/">← preview overview</a></p>
+    </div>
+
+    <script>
+      const meta = window.__MALSYNC_PREVIEW__ || {};
+      const downloads = window.__MALSYNC_DOWNLOADS__ || [];
+      const file = downloads[0] || { name: 'crunchyroll-player.zip', size: 0 };
+      const tag = 'player-v1.0.0';
+      const repo = 'khojicofficial/crunchyroll';
+      const path = 'dev-preview/public/download/crunchyroll-player.zip';
+
+      document.getElementById('meta-line').textContent =
+        `${file.name} · ${(file.size / 1024).toFixed(1)} KB · branch ${meta.commit || '?'} · tag ${tag}`;
+
+      const mirrors = [
+        {
+          label: 'jsDelivr CDN',
+          hint: 'India me sabse reliable mirror',
+          url: `https://cdn.jsdelivr.net/gh/${repo}@${tag}/${path}`,
+        },
+        {
+          label: 'GitHack',
+          hint: 'raw proxy, CDN se serve hota hai',
+          url: `https://raw.githack.com/${repo}/${tag}/${path}`,
+        },
+        {
+          label: 'statically.io',
+          hint: 'ek aur raw mirror',
+          url: `https://cdn.statically.io/gh/${repo}/${tag}/${path}`,
+        },
+        {
+          label: 'GitHub raw',
+          hint: 'direct, VPN ke bina kuch ISPs pe block',
+          url: `https://github.com/${repo}/raw/${tag}/${path}`,
+        },
+        {
+          label: 'GitHub file page',
+          hint: '“Download raw file” button page pe',
+          url: `https://github.com/${repo}/blob/${tag}/${path}`,
+        },
+        {
+          label: 'Whole repo archive',
+          hint: '3.2 MB — player source + ye zip andar hai',
+          url: `https://github.com/${repo}/archive/refs/tags/${tag}.zip`,
+        },
+        {
+          label: 'Release page',
+          hint: 'notes + saare links ek jagah',
+          url: `https://github.com/${repo}/releases/tag/${tag}`,
+        },
+      ];
+
+      document.getElementById('links').innerHTML = mirrors
+        .map(
+          mirror => `<div class="row">
+            <span class="label">${mirror.label}<small>${mirror.hint}</small></span>
+            <code>${mirror.url}</code>
+            <button class="copy" type="button" data-url="${mirror.url}">copy</button>
+            <a class="go" href="${mirror.url}" target="_blank" rel="noreferrer">open</a>
+          </div>`,
+        )
+        .join('');
+
+      document.querySelectorAll('button.copy').forEach(button => {
+        button.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(button.dataset.url);
+            button.textContent = 'copied';
+          } catch (error) {
+            button.textContent = 'select';
+            window.prompt('Copy this link:', button.dataset.url);
+          }
+          setTimeout(() => (button.textContent = 'copy'), 1500);
+        });
+      });
+
+      // Download without leaving the preview: fetch the file from this origin and hand the
+      // bytes to the browser, so no traffic-token or external host is involved.
+      const saveButton = document.getElementById('save-btn');
+      const status = document.getElementById('status');
+      saveButton.addEventListener('click', async () => {
+        saveButton.disabled = true;
+        status.textContent = 'preparing…';
+        try {
+          const response = await fetch('/crunchyroll-player.zip');
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const blob = await response.blob();
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = file.name;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 10000);
+          status.textContent = `saved ${file.name} (${(blob.size / 1024).toFixed(1)} KB) — check your Downloads folder`;
+        } catch (error) {
+          status.textContent = `in-page save failed (${error.message}) — use a mirror link below`;
+        } finally {
+          saveButton.disabled = false;
+        }
+      });
+    </script>
+  </body>
+</html>

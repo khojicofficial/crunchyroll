@@ -121,6 +121,7 @@
         </a>
         <span class="size" id="zip-size"></span>
         <span class="size">or open the <a class="inline" href="/player/">live player demo →</a></span>
+        <span class="size">· <a class="inline" href="/download">all download options (mirror links) →</a></span>
       </div>
 
       <h2>Try it</h2>
@@ -297,6 +298,34 @@
       const downloads = window.__MALSYNC_DOWNLOADS__ || [];
       if (downloads.length) {
         document.getElementById('zip-size').textContent = `${downloads[0].name} · ${(downloads[0].size / 1024).toFixed(1)} KB`;
+      }
+
+      // The browser saves the file itself (same-origin fetch + Blob), so the button works
+      // inside the preview no matter how the traffic token is handled.
+      const hero = document.getElementById('zip-hero');
+      if (hero) {
+        hero.addEventListener('click', async event => {
+          event.preventDefault();
+          const label = hero.querySelector('span:last-child') || hero;
+          const original = label.textContent;
+          try {
+            const response = await fetch('/crunchyroll-player.zip');
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'crunchyroll-player.zip';
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 10000);
+            label.textContent = 'Saved! check Downloads';
+          } catch (error) {
+            window.location.href = '/download';
+            return;
+          }
+          setTimeout(() => (label.textContent = original), 4000);
+        });
       }
       const downloadBox = document.getElementById('downloads');
       if (downloads.length) {

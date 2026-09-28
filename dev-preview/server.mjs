@@ -7,6 +7,7 @@
  *   /extension/*       -> dist/webextension/* (e.g. the real proxy_request.js)
  *   /popup/*           -> the real built extension popup, running with mocked chrome APIs
  *   /player/*          -> standalone CrunchyrollPlayer package (dev-preview/standalone)
+ *   /download          -> download page (in-browser zip save + mirror links)
  *   /download/*.zip    -> packaged downloads, e.g. the standalone player
  *   /mock/crunchyroll/* -> fake Crunchyroll CMS API
  *
@@ -17,6 +18,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execSync } from 'node:child_process';
+import crypto from 'node:crypto';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.join(__dirname, '..');
@@ -122,7 +124,15 @@ function readDownloads() {
   return fs
     .readdirSync(dir)
     .filter(name => name.endsWith('.zip'))
-    .map(name => ({ name, size: fs.statSync(path.join(dir, name)).size }));
+    .map(name => {
+      const file = path.join(dir, name);
+      const buffer = fs.readFileSync(file);
+      return {
+        name,
+        size: buffer.length,
+        sha256: crypto.createHash('sha256').update(buffer).digest('hex'),
+      };
+    });
 }
 
 /** Every page gets the build metadata injected, the panel shows it in the header. */
@@ -274,6 +284,10 @@ const server = http.createServer((req, res) => {
     const file = path.join(__dirname, 'public', 'download', 'crunchyroll-player.zip');
     if (fs.existsSync(file)) return serveDownload(res, file, 'crunchyroll-player.zip');
     return send(res, 404, 'run `npm run preview:zip` to build the player zip');
+  }
+
+  if (pathname === '/download' || pathname === '/download/') {
+    return serveFile(res, path.join(publicDir, 'download.html'), injectMeta);
   }
 
   if (pathname.startsWith('/download/')) {
