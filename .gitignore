@@ -56,5 +56,7 @@ dev-preview/public/build/
 dev-preview/public/vendor/jquery.min.js
 dev-preview/public/vendor/fonts/
 
-# Preview: packaged downloads (npm run preview:zip regenerates them)
-dev-preview/public/download/
+# Preview: packaged downloads (npm run preview:zip regenerates them).
+# The player zip is tracked on purpose so it can be downloaded from GitHub.
+dev-preview/public/download/*
+!dev-preview/public/download/crunchyroll-player.zip
