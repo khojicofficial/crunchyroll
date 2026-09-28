@@ -269,6 +269,13 @@ const server = http.createServer((req, res) => {
     );
   }
 
+  // Short alias so the zip can be shared as <host>/crunchyroll-player.zip
+  if (pathname === '/crunchyroll-player.zip') {
+    const file = path.join(__dirname, 'public', 'download', 'crunchyroll-player.zip');
+    if (fs.existsSync(file)) return serveDownload(res, file, 'crunchyroll-player.zip');
+    return send(res, 404, 'run `npm run preview:zip` to build the player zip');
+  }
+
   if (pathname.startsWith('/download/')) {
     const file = path.join(__dirname, 'public', 'download', pathname.replace('/download/', ''));
     if (file.startsWith(path.join(__dirname, 'public', 'download')) && fs.existsSync(file)) {
